@@ -1,0 +1,112 @@
+Screen {
+    background: #1a1b26;
+}
+
+#wifi-modal {
+    width: 60;
+    height: 25;
+    border: solid #3b4261;
+    background: #24283b;
+    padding: 1 2;
+}
+
+#header {
+    dock: top;
+    padding: 0 1;
+    background: #2f3347;
+    color: #c0caf5;
+    text-style: bold;
+}
+
+#wifi-list {
+    height: 1fr;
+    background: #24283b;
+}
+
+#wifi-list.hidden {
+    display: none;
+}
+
+#loading-container {
+    height: 1fr;
+    align: center middle;
+    background: #24283b;
+}
+
+#loading-container.hidden {
+    display: none;
+}
+
+.loading-text {
+    color: #565f89;
+    margin-top: 1;
+}
+
+#wifi-list ListItem {
+    padding: 0 2;
+    background: #24283b;
+    color: #a9b1d6;
+}
+
+#wifi-list ListItem.-active {
+    background: #3b4261;
+    color: #c0caf5;
+}
+
+#wifi-list ListItem:hover {
+    background: #3b4261;
+}
+
+.signal-bar {
+    color: #9ece6a;
+}
+
+.signal-medium {
+    color: #e0af68;
+}
+
+.signal-weak {
+    color: #f7768e;
+}
+
+.connected {
+    color: #9ece6a;
+    text-style: bold;
+}
+
+.security-tag {
+    color: #565f89;
+}
+
+#footer {
+    max-height: 3;
+    padding: 0 1;
+    background: #2f3347;
+    color: #565f89;
+}
+
+#status-bar {
+    max-height: 1;
+    padding: 0 1;
+    background: #1a1b26;
+    color: #565f89;
+}
+
+Button {
+    margin: 0 1;
+    min-width: 12;
+}
+
+#refresh-btn {
+    background: #7aa2f7;
+    color: #1a1b26;
+}
+
+#close-btn {
+    background: #f7768e;
+    color: #1a1b26;
+}
+
+Button:hover {
+    text-style: bold;
+}
