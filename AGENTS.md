@@ -36,11 +36,16 @@ wifipy
 - **iwctl emits ANSI color codes** — `_run()` strips them via `_strip_ansi()` or regex breaks.
 - No test suite exists. No CI workflows.
 
-## Keyboard shortcuts
+## Keyboard shortcuts (vim-style)
 
 | Key | Action |
 |-----|--------|
-| `r` | Refresh network list |
-| `q` / `Escape` | Quit |
-| `Delete` | Forget selected network |
+| `j` | Move cursor down |
+| `k` | Move cursor up |
+| `g` | Go to first network |
+| `G` | Go to last network |
 | `Enter` | Connect to selected network |
+| `d` | Forget selected network |
+| `r` | Refresh network list |
+| `?` | Show help (keybinds) |
+| `q` / `Escape` | Quit |

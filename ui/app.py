@@ -43,10 +43,16 @@ class WifiApp(App):
     CSS_PATH = str(_UI_DIR / "styles.css")
 
     BINDINGS = [
+        Binding("j", "cursor_down", "↓", show=False),
+        Binding("k", "cursor_up", "↑", show=False),
+        Binding("g", "cursor_top", "Inicio", show=False),
+        Binding("shift+g", "cursor_bottom", "Fin", show=False),
+        Binding("enter", "connect", "Conectar"),
+        Binding("d", "forget", "Olvidar red"),
         Binding("r", "refresh", "Refrescar"),
         Binding("q", "quit", "Salir"),
         Binding("escape", "quit", "Salir"),
-        Binding("delete", "forget", "Olvidar red"),
+        Binding("question", "help", "Ayuda", show=False),
     ]
 
     TITLE = "wifiPy"
@@ -146,6 +152,42 @@ class WifiApp(App):
         self._load_networks_async()
         self.notify("Redes actualizadas", timeout=2)
 
+    def action_cursor_down(self) -> None:
+        table = self.query_one("#wifi-list", DataTable)
+        if table.row_count:
+            table.move_cursor(down=1)
+
+    def action_cursor_up(self) -> None:
+        table = self.query_one("#wifi-list", DataTable)
+        if table.row_count:
+            table.move_cursor(up=1)
+
+    def action_cursor_top(self) -> None:
+        table = self.query_one("#wifi-list", DataTable)
+        if table.row_count:
+            table.move_cursor(row=0)
+
+    def action_cursor_bottom(self) -> None:
+        table = self.query_one("#wifi-list", DataTable)
+        if table.row_count:
+            table.move_cursor(row=table.row_count - 1)
+
+    def action_connect(self) -> None:
+        table = self.query_one("#wifi-list", DataTable)
+        if table.cursor_row is None:
+            return
+        ssid = table.get_row_at(table.cursor_row)
+        if not ssid or not ssid[1]:
+            return
+        ssid_value = ssid[1].replace(" *", "").replace(" [guardada]", "")
+        self._connect_to_ssid(ssid_value)
+
+    def action_help(self) -> None:
+        self.notify(
+            "j/k: mover | Enter: conectar | d: olvidar | g/G: inicio/fin | r: refrescar | q: salir",
+            timeout=8,
+        )
+
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "refresh-btn":
             self.action_refresh()
@@ -153,11 +195,12 @@ class WifiApp(App):
             self.exit()
 
     def on_data_table_row_selected(self, event: DataTable.RowSelected) -> None:
-        table = self.query_one("#wifi-list", DataTable)
         ssid = event.row_key.value
         if not ssid:
             return
+        self._connect_to_ssid(ssid)
 
+    def _connect_to_ssid(self, ssid: str) -> None:
         self._init_db()
         db_net = self.db.get_network(ssid) if self.db else None
         if db_net and db_net.get("security") == "open":
