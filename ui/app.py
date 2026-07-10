@@ -155,12 +155,14 @@ class WifiApp(App):
     def action_cursor_down(self) -> None:
         table = self.query_one("#wifi-list", DataTable)
         if table.row_count:
-            table.move_cursor(down=1)
+            current = table.cursor_row or 0
+            table.move_cursor(row=min(current + 1, table.row_count - 1))
 
     def action_cursor_up(self) -> None:
         table = self.query_one("#wifi-list", DataTable)
         if table.row_count:
-            table.move_cursor(up=1)
+            current = table.cursor_row or 0
+            table.move_cursor(row=max(current - 1, 0))
 
     def action_cursor_top(self) -> None:
         table = self.query_one("#wifi-list", DataTable)
